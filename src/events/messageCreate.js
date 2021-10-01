@@ -1,24 +1,35 @@
+const { MessageActionRow, MessageButton } = require('discord.js');
 module.exports = {
     name: 'messageCreate',
     async execute(message, client) {
         if (message.author.bot) return;
 
-
-        if(message.content === "verify"){
+        const rowPlatformButtons = new MessageActionRow()
+            .addComponents([this.PC(), this.PS(), this.XBOX()]);
+       if(message.content === "verify_platform") {
             message.delete();
-            const messageVerify = await client.channels.cache.get(process.env.verifyChannelId).send({ content: 'Serverio verified sistema', fetch: true });
-            const reactionEmoji = client.emojis.cache.get('892475045585240084');
-            await messageVerify.react(reactionEmoji);
-        }else if(message.content === "info") {
-            message.delete();
-            const messageInfo = await client.channels.cache.get(process.env.infoChannelId).send({ content: 'Serverio info ir game platformos', fetch: true });
-            const pc = client.emojis.cache.get(process.env.pcEmojiId), ps = client.emojis.cache.get(process.env.psEmojiId), xbox = client.emojis.cache.get(process.env.xboxEmojiId);
-            messageInfo.react(pc)
-                .then(() => messageInfo.react(ps))
-                .then(() => messageInfo.react(xbox))
-                .catch(error => console.error('info channel: One of the emojis failed to react:', error));
+            client.channels.cache.get(process.env.verifyChannelId).send({ content: 'Serverio verified sistema', components: [rowPlatformButtons] });
         }
-
-
     },
+    PC: () => {
+        return new MessageButton()
+            .setLabel('PC')
+            .setEmoji("<:PC:892829069975117854>")
+            .setStyle("SECONDARY")
+            .setCustomId("button_pc")
+    },
+    PS: () => {
+        return new MessageButton()
+            .setLabel('PS')
+            .setEmoji("<:playstation:893088102338412594>")
+            .setStyle("PRIMARY")
+            .setCustomId("button_ps")
+    },
+    XBOX: () => {
+        return new MessageButton()
+            .setLabel('XBOX')
+            .setEmoji("<:XBOX:892829298862481409>")
+            .setStyle("SUCCESS")
+            .setCustomId("button_xbox")
+    }
 };
