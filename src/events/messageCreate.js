@@ -1,35 +1,28 @@
-const { MessageActionRow, MessageButton } = require('discord.js');
+const { MessageActionRow, MessageButton, MessageEmbed } = require('discord.js');
 module.exports = {
     name: 'messageCreate',
     async execute(message, client) {
         if (message.author.bot) return;
 
         const rowPlatformButtons = new MessageActionRow()
-            .addComponents([this.PC(), this.PS(), this.XBOX()]);
+            .addComponents([this.verify_platform_getStart()]);
        if(message.content === "verify_platform") {
             message.delete();
-            client.channels.cache.get(process.env.verifyChannelId).send({ content: 'Serverio verified sistema', components: [rowPlatformButtons] });
+            client.channels.cache.get(process.env.verifyChannelId).send({  embeds: [this.verify_platform_embed()], components: [rowPlatformButtons] });
         }
     },
-    PC: () => {
+    verify_platform_getStart: () => {
         return new MessageButton()
-            .setLabel('PC')
-            .setEmoji("<:PC:892829069975117854>")
+            .setLabel('Get Started')
+            .setEmoji("✅")
             .setStyle("SECONDARY")
-            .setCustomId("button_pc")
+            .setCustomId("verify_platform_getStart_button")
     },
-    PS: () => {
-        return new MessageButton()
-            .setLabel('PS')
-            .setEmoji("<:playstation:893088102338412594>")
-            .setStyle("PRIMARY")
-            .setCustomId("button_ps")
-    },
-    XBOX: () => {
-        return new MessageButton()
-            .setLabel('XBOX')
-            .setEmoji("<:XBOX:892829298862481409>")
-            .setStyle("SUCCESS")
-            .setCustomId("button_xbox")
+    verify_platform_embed: () => {
+        return new MessageEmbed()
+            .setColor('#0099ff')
+            .setTitle('Some title')
+            .setURL('https://discord.js.org')
+            .setDescription('Some description here');
     }
 };
