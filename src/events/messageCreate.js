@@ -6,17 +6,17 @@ module.exports = {
 
         const rowPlatformButtons = new MessageActionRow()
             .addComponents([this.verify_platform_getStart()]);
-       if(message.content === "verify_platform") {
+       if(message.content === "_welcome") {
             message.delete();
-            client.channels.cache.get(process.env.verifyChannelId).send({  embeds: [this.verify_aboutServer_embed(), this.verify_platform_embed()], components: [rowPlatformButtons] });
+            client.channels.cache.get(process.env.welcomeChannelId).send({  embeds: [this.verify_aboutServer_embed(), this.verify_platform_embed()], components: [rowPlatformButtons] });
         }
     },
     verify_platform_getStart: () => {
         return new MessageButton()
-            .setLabel('Get Started')
-            .setEmoji("✅")
+            .setLabel('Pasirinkti role')
+            .setEmoji("❓")
             .setStyle("SECONDARY")
-            .setCustomId("verify_platform_getStart_button")
+            .setCustomId("welcome_platform_getStart_button")
     },
     verify_aboutServer_embed: () => {
         return new MessageEmbed()
