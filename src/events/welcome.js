@@ -10,7 +10,7 @@ module.exports = {
 
         const platformRoles = [this.user_roles(interaction, process.env.pcRoleName), this.user_roles(interaction, process.env.psRoleName), this.user_roles(interaction, process.env.xboxRoleName)];
 
-        platformRoles.forEach(platformRoleId => {//TODO bug when x2 click multiple times on some platform role.
+        platformRoles.forEach(platformRoleId => {
             if(platformRoleId && interaction.customId !== "welcome_platform_getStart_button"){
                 this.reset_platform_roles(interaction, platformRoleId);
             }
