@@ -1,6 +1,7 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 
 module.exports = {
+    permission: "SEND_MESSAGES",
     data: new SlashCommandBuilder()
         .setName('ping')
         .setDescription('THIS IS A DESCRIPTION!!!'),

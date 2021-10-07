@@ -3,6 +3,7 @@ const { Client, Intents, Collection, MessageActionRow, MessageButton, MessageAtt
 
 
 module.exports = {
+    permission: "SEND_MESSAGES",
     data: new SlashCommandBuilder()
         .setName('wagon')
         .setDescription('Start trader wagon')

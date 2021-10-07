@@ -1,3 +1,4 @@
+const {  MessageEmbed  } = require('discord.js')
 module.exports = {
     name: 'interactionCreate',
     async execute(interaction, client) {
@@ -8,7 +9,14 @@ module.exports = {
         if (!command) return;
 
         try {
-            await command.execute(interaction);
+            if(!interaction.member?.permissions.has(command.permission)){
+                const Error1 = new MessageEmbed()
+                    .setColor('RED')
+                    .setDescription(`🛑 You do not have the required permissions to run this command: ${command.permission}`)
+                return interaction.reply({embeds: [Error1], ephemeral: true});
+            }else{
+                await command.execute(interaction);
+            }
         } catch (error) {
             console.error(error);
             await interaction.reply({
