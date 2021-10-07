@@ -16,6 +16,7 @@ const commandFolders = fs.readdirSync("./src/commands");
 
 //db
 const User = require("./models/User");
+const Messages = require("./models/Messages");
 
     client.on('ready', async () => {
         console.log("Bot is logged in!");
@@ -25,6 +26,8 @@ const User = require("./models/User");
                 console.log("Logged in to DB");
                 User.init(db);
                 User.sync();
+                Messages.init(db);
+                Messages.sync();
             }).catch(err => console.log(err));
 
          client.users.cache.forEach(member => { //creating users if not exits in database
