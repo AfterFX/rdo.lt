@@ -1,8 +1,13 @@
+const Messages = require("../models/Messages");
+const User = require("../models/User");
 const { MessageActionRow, MessageButton, MessageEmbed } = require('discord.js');
 module.exports = {
     name: 'messageCreate',
     async execute(message, client) {
         if (message.author.bot) return;
+
+        await this.server_total_messages();
+        await this.user_total_messages(message.author);
 
         const rowPlatformButtons = new MessageActionRow()
             .addComponents([this.verify_platform_getStart()]);
@@ -27,5 +32,24 @@ module.exports = {
         return new MessageEmbed()
             .setColor('#0099ff')
             .addField(`**PLATFORMOS ROLĖS**`, `Pasirink platforma, kuria naudoji žaisdamas Red Dead Online \n žaidimą, paspausdamas ant žemiau esančio platformos mygtuko.\n\n<:verify:893065643862159390> *Tik pasirinkę platformos rolę matysitę visus serverio kanalus.*`)
+    },
+    server_total_messages: async () => {
+        await Messages.findOrCreate({
+            where: {id: 1}
+        }).then( ([r]) => {
+            Messages.update(
+                { total: r.total+1 },{ where: { id: 1 } }
+            );
+        } );
+    },
+    user_total_messages: async (member) => {
+        console.log(member.id)
+        await User.findOrCreate({
+            where: {userId: member.id}
+        }).then( ([r]) => {
+            User.update(
+                { messages: r.messages+1 },{ where: { userId: member.id } }
+            );
+        } );
     }
 };
