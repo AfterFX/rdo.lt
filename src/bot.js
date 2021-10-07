@@ -2,7 +2,7 @@ require('dotenv').config();
 
 const { Client, Intents, Collection } = require('discord.js');
 const fs = require('fs');
-const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_MESSAGE_REACTIONS],
+const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_PRESENCES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS],
     partials: ['MESSAGE', 'CHANNEL', 'REACTION'],});
 const db = require('./database/database')
 
@@ -15,29 +15,30 @@ const eventFiles = fs.readdirSync("./src/events").filter(file => file.endsWith("
 const commandFolders = fs.readdirSync("./src/commands");
 
 //db
-const User = require("./models/User")
+const User = require("./models/User");
+const {Op} = require("sequelize");
 
-client.on('ready', async () => {
-    console.log("Bot is logged in!");
-    db.authenticate()
-        .then(() => {
-            console.log("Logged in to DB");
-            User.init(db);
-            User.sync();
-        }).catch(err => console.log(err));
-});
+    client.on('ready', async () => {
+        console.log("Bot is logged in!");
 
-// require('./events/messageCreate');
+        await db.authenticate()
+            .then(() => {
+                console.log("Logged in to DB");
+                User.init(db);
+                User.sync();
+            }).catch(err => console.log(err));
 
+         client.users.cache.forEach(member => { //creating users if not exits in database
+             User.findOrCreate({
+                 where: { userId: member.id }
+             });
+        });
+
+    });
 
 // client.on('interactionCreate', interaction => {
 //     console.log(interaction);
 // });
-
-
-
-// require('./events/messageReactionAdd');
-
 
 (async () => {
     for(file of functions){
@@ -46,5 +47,5 @@ client.on('ready', async () => {
 
     client.handleEvents(eventFiles, "./src/events")
     client.handleCommands(commandFolders, "./src/commands");
-    client.login(process.env.token)
+    client.login(process.env.token);
 })();
