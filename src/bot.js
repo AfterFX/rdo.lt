@@ -16,7 +16,6 @@ const commandFolders = fs.readdirSync("./src/commands");
 
 //db
 const User = require("./models/User");
-const {Op} = require("sequelize");
 
     client.on('ready', async () => {
         console.log("Bot is logged in!");
