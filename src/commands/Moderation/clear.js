@@ -17,19 +17,6 @@ module.exports = {
                 .setDescription('Select a target to clear their messages.')
                 .setRequired(false)),
     async execute(interaction) {
-        // console.linteraction.member?.permissions.has("MANAGE_MESSAGES"));og(
-
-        // const permissions2 = {
-        //     id: guild.roles.everyone.id,
-        //     type: 'ROLE',
-        //     permission: false,
-        // };
-
-
-        // await client.commands.permissions.set({
-        //     command: interaction.commandId,
-        //     permissions: "MANAGE_MESSAGES"
-        // });
 
         const { channel, options } = interaction;
 
