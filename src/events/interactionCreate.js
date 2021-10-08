@@ -1,21 +1,20 @@
 const {  MessageEmbed  } = require('discord.js')
+const treasure = require("../commands/open/treasure")
+const commandCatcher = require("./commandCatcher")
 module.exports = {
     name: 'interactionCreate',
     async execute(interaction, client) {
-        if (!interaction.isCommand()) return;
-
-        const command = client.commands.get(interaction.commandName);
-
-        if (!command) return;
+        if (interaction.isCommand()) return;
+        const buttonCommand = client.commands.get(interaction.message.interaction.commandName);//get reply motherCommand
 
         try {
-            if(!interaction.member?.permissions.has(command.permission)){
-                const Error1 = new MessageEmbed()
-                    .setColor('RED')
-                    .setDescription(`🛑 You do not have the required permissions to run this command: ${command.permission}`)
-                return interaction.reply({embeds: [Error1], ephemeral: true});
+            if(!interaction.member?.permissions.has(buttonCommand.permission)){
+                return interaction.update({embeds: [commandCatcher.no_permissions(buttonCommand)], ephemeral: true});
             }else{
-                await command.execute(interaction);
+                if(interaction.customId === "open_treasure"){
+                    let button = true;
+                    await treasure.open_treasure_map(interaction, button);
+                }
             }
         } catch (error) {
             console.error(error);

@@ -12,11 +12,11 @@ module.exports = class User extends Model {
                 type: DataTypes.STRING(18),
             },
             money: {
-                type: DataTypes.INTEGER,
+                type: DataTypes.FLOAT(11, 2),
                 defaultValue: 0
             },
             gold: {
-                type: DataTypes.INTEGER,
+                type: DataTypes.FLOAT(11, 2),
                 defaultValue: 0
             },
             level: {

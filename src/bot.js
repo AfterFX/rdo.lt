@@ -20,7 +20,6 @@ const Messages = require("./models/Messages");
 
     client.on('ready', async () => {
         console.log("Bot is logged in!");
-
         await db.authenticate()
             .then(() => {
                 console.log("Logged in to DB");
