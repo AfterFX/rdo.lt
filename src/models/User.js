@@ -40,7 +40,7 @@ module.exports = class User extends Model {
                 defaultValue: 0
             },
             dailyStreak: {
-                type: DataTypes.STRING,
+                type: DataTypes.INTEGER,
                 defaultValue: 0
             },
             treasureMaps: {
