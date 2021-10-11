@@ -49,35 +49,27 @@ module.exports = {
             user.messages = (user.messages+1);
             user.experience = (user.experience+(Number(process.env.experienceEachMsg)));
             user.save().then((user) => {
-                while(module.exports.levelUP(user)){
-                     module.exports.levelUP(user);
-                }
+                // while(module.exports.levelUP(user)){
+                    module.exports.levelUP(user);
+                // }
             });
 
         } );
     },
-    levelUP: async (user) => {
-        let nextLevel = +1;
+    levelUP: (user) => {
         let FullLevelRequiredXP = (user.level+1)*100;
-        let requiredXP = FullLevelRequiredXP - user.experience;
-        if(requiredXP <= 0){
-            // let sql = `UPDATE users SET level=level+1, experience=experience-${FullLevelRequiredXP} WHERE userID = ${message.author.id}`
-            // connection.query(sql, function (err, result) {
-            //     if (err) throw err;
-            // });
-            console.log(user.level)
-            user.level = (user.level+1);
-            user.experience = (user.experience-FullLevelRequiredXP)
-            user.save();
-            //every 5 lvl give treasure map.
-            // let every = 5;
-            // if(Math.floor((user["level"]+1)/every) === (user["level"]+1)/every){
-            //     giveTreasureMap(connection, message);
-            //     message.author.send(embed.gotTreasureDM()).then(msg => {
-            //         msg.delete({timeout: 600000})
-            //     });
-            // }
-            return true
+        do {
+            if(user.experience >= FullLevelRequiredXP) {
+
+                FullLevelRequiredXP = (user.level+1)*100;
+                user.level++;
+                if(user.experience < FullLevelRequiredXP) break;
+                user.experience = user.experience - FullLevelRequiredXP;
+
+                (Math.floor((user.level)/5) === (user.level)/5) ? user.treasureMaps++ : false;//giving treasure maps every 5 lvl
+            }
         }
+        while (user.experience >= FullLevelRequiredXP);
+        user.save();
     }
 };
