@@ -29,6 +29,8 @@ const Messages = require("./models/Messages");
                 Messages.sync();
             }).catch(err => console.log(err));
 
+        setInterval(ResetTime,(60*1000));//every 60s
+
          client.users.cache.forEach(member => { //creating users if not exits in database
              User.findOrCreate({
                  where: { userId: member.id }
@@ -48,5 +50,16 @@ const Messages = require("./models/Messages");
 
     client.handleEvents(eventFiles, "./src/events")
     client.handleCommands(commandFolders, "./src/commands");
-    client.login(process.env.token);
+    await client.login(process.env.token);
 })();
+
+
+function ResetTime() {
+    Messages.findOne({where: {id: 1}}).then(r => {
+        if(r.time_schedule < Date.now()){
+            r.time_schedule = (r.time_schedule+86400000);
+            r.beforeNumber = r.total;
+            r.save().then( () => {console.log("messages saved")});
+        }
+    })
+}
