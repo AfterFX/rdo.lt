@@ -7,7 +7,7 @@ module.exports = {
         if (message.author.bot) return;
 
         await this.server_total_messages();
-        await this.user_total_messages(message.author);
+        await this.user_exp(message.author);
 
         const rowPlatformButtons = new MessageActionRow()
             .addComponents([this.welcome_button()]);
@@ -42,14 +42,42 @@ module.exports = {
             );
         } );
     },
-    user_total_messages: async (member) => {
-        console.log(member.id)
+    user_exp: async (member) => {
         await User.findOrCreate({
             where: {userId: member.id}
-        }).then( ([r]) => {
-            User.update(
-                { messages: r.messages+1 },{ where: { userId: member.id } }
-            );
+        }).then( ([user]) => {
+            user.messages = (user.messages+1);
+            user.experience = (user.experience+(Number(process.env.experienceEachMsg)));
+            user.save().then((user) => {
+                while(module.exports.levelUP(user)){
+                     module.exports.levelUP(user);
+                }
+            });
+
         } );
+    },
+    levelUP: async (user) => {
+        let nextLevel = +1;
+        let FullLevelRequiredXP = (user.level+1)*100;
+        let requiredXP = FullLevelRequiredXP - user.experience;
+        if(requiredXP <= 0){
+            // let sql = `UPDATE users SET level=level+1, experience=experience-${FullLevelRequiredXP} WHERE userID = ${message.author.id}`
+            // connection.query(sql, function (err, result) {
+            //     if (err) throw err;
+            // });
+            console.log(user.level)
+            user.level = (user.level+1);
+            user.experience = (user.experience-FullLevelRequiredXP)
+            user.save();
+            //every 5 lvl give treasure map.
+            // let every = 5;
+            // if(Math.floor((user["level"]+1)/every) === (user["level"]+1)/every){
+            //     giveTreasureMap(connection, message);
+            //     message.author.send(embed.gotTreasureDM()).then(msg => {
+            //         msg.delete({timeout: 600000})
+            //     });
+            // }
+            return true
+        }
     }
 };
