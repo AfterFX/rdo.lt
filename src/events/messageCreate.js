@@ -7,7 +7,7 @@ module.exports = {
         if (message.author.bot) return;
 
         await this.server_total_messages();
-        await this.user_exp(message.author);
+        await this.user_exp(message.author, client);
 
         const rowPlatformButtons = new MessageActionRow()
             .addComponents([this.welcome_button()]);
@@ -42,34 +42,45 @@ module.exports = {
             );
         } );
     },
-    user_exp: async (member) => {
+    user_exp: async (user, client) => {
         await User.findOrCreate({
-            where: {userId: member.id}
-        }).then( ([user]) => {
-            user.messages = (user.messages+1);
-            user.experience = (user.experience+(Number(process.env.experienceEachMsg)));
-            user.save().then((user) => {
-                // while(module.exports.levelUP(user)){
-                    module.exports.levelUP(user);
-                // }
+            where: {userId: user.id}
+        }).then( ([r]) => {
+            r.messages = (r.messages+1);
+            r.experience = (r.experience+(Number(process.env.experienceEachMsg)));
+            r.save().then((r) => {
+                    module.exports.levelUP(client, r, user);
             });
 
         } );
     },
-    levelUP: (user) => {
-        let FullLevelRequiredXP = (user.level+1)*100;
+    levelUP: (client, r, user) => {
+        let treasureMapsReward = 0;
+        let FullLevelRequiredXP = (r.level+1)*100;
+        let levelUp = false;
         do {
-            if(user.experience >= FullLevelRequiredXP) {
+            if(r.experience >= FullLevelRequiredXP) {
+                levelUp = true;
+                FullLevelRequiredXP = (r.level+1)*100;
+                if(r.experience < FullLevelRequiredXP) break;
+                r.level++;
+                r.experience = r.experience - FullLevelRequiredXP;
+                (Math.floor((r.level)/5) === (r.level)/5) ? r.treasureMaps++ && treasureMapsReward++ : false;//giving treasure maps every 5 lvl
 
-                FullLevelRequiredXP = (user.level+1)*100;
-                user.level++;
-                if(user.experience < FullLevelRequiredXP) break;
-                user.experience = user.experience - FullLevelRequiredXP;
-
-                (Math.floor((user.level)/5) === (user.level)/5) ? user.treasureMaps++ : false;//giving treasure maps every 5 lvl
             }
         }
-        while (user.experience >= FullLevelRequiredXP);
-        user.save();
+        while (r.experience >= FullLevelRequiredXP);
+        if(levelUp){
+            r.save().then((r) => {
+                client.channels.cache.get(process.env.notificationsChannelId).send({  embeds: [module.exports.levelUpNotification(r, user, treasureMapsReward)] });
+            });
+        }
+    },
+    levelUpNotification: (r, user, treasureMapsReward) => {
+        let reward = (treasureMapsReward)? `Reward: ${treasureMapsReward} treasure map(s)` : "";
+        return new MessageEmbed()
+            .setColor('#0099ff')
+            .setDescription(`**Level Up**\n ${user.username} has achievement the ${r.level} level.\n ${reward}`)
+
     }
 };
