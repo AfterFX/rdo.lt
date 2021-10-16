@@ -27,6 +27,7 @@ const Messages = require("./models/Messages");
                 User.sync();
                 Messages.init(db);
                 Messages.sync();
+                Messages.findOrCreate({where: {id: 1}});
             }).catch(err => console.log(err));
 
         setInterval(ResetTime,(60*1000));//every 60s
