@@ -20,9 +20,9 @@ module.exports = {
             });
         }
     },
-    no_permissions: (command) =>{
+    no_permissions: () =>{
         return new MessageEmbed()
             .setColor('RED')
-            .setDescription(`🛑 You do not have the required permissions to run this command: ${command.permission}`)
+            .setDescription(`🛑 You do not have the required permissions to run this command`)
     }
 };
