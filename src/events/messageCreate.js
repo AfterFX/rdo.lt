@@ -72,7 +72,7 @@ module.exports = {
         while (r.experience >= FullLevelRequiredXP);
         if(levelUp){
             r.save().then((r) => {
-                client.channels.cache.get(process.env.notificationsChannelId).send({  embeds: [module.exports.levelUpNotification(r, user, treasureMapsReward)] });
+                client.channels.cache.get(process.env.notificationsChannelId).send({content: `|| <@${user.id}> ||`,  embeds: [module.exports.levelUpNotification(r, user, treasureMapsReward)] });
             });
         }
     },

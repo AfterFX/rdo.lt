@@ -23,7 +23,7 @@ module.exports = {
                 user.dailyLastDate = new Date().toLocaleDateString();
                 user.save().then(interaction.reply({embeds: [this.daily_reset_embed(false, goldBonus, dailyStreak, dailyLastDate, false)], ephemeral: true}))
                     .then(() => {
-                        interaction.member.guild.channels.cache.get(process.env.notificationsChannelId).send({embeds: [this.daily_reset_embed(interaction.user, goldBonus, dailyStreak, dailyLastDate, true)], ephemeral: false})
+                        interaction.member.guild.channels.cache.get(process.env.notificationsChannelId).send({content: `|| <@${interaction.user.id}> ||`, embeds: [this.daily_reset_embed(interaction.user, goldBonus, dailyStreak, dailyLastDate, true)], ephemeral: false})
                     });
             }else if(this.diffDate(user.dailyLastDate) === 1){
                 let streakGold = this.daily_gold(user);
@@ -32,7 +32,7 @@ module.exports = {
                 user.dailyLastDate = new Date().toLocaleDateString();
                 user.save().then(interaction.reply({embeds: [this.daily_reward_embed(false, streakGold, user.dailyStreak, false)], ephemeral: true}))
                     .then(() => {
-                    interaction.member.guild.channels.cache.get(process.env.notificationsChannelId).send({embeds: [this.daily_reward_embed(interaction.user, streakGold, user.dailyStreak, true)], ephemeral: false})
+                    interaction.member.guild.channels.cache.get(process.env.notificationsChannelId).send({content: `|| <@${interaction.user.id}> ||`, embeds: [this.daily_reward_embed(interaction.user, streakGold, user.dailyStreak, true)], ephemeral: false})
                     });
             }else if(this.diffDate(user.dailyLastDate) === 0){
                 interaction.reply({embeds: [this.daily_stop_embed()], ephemeral: true});
