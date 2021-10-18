@@ -4,7 +4,7 @@ const { Client, Intents, Collection } = require('discord.js');
 const fs = require('fs');
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_PRESENCES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS],
     partials: ['MESSAGE', 'CHANNEL', 'REACTION'],});
-const db = require('./database/database')
+const db = require('./database/database');
 
 
 client.commands = new Collection();
