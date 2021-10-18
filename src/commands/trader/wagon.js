@@ -9,18 +9,23 @@ module.exports = {
         .setDescription('Start trader wagon')
         .addStringOption(option =>
             option.setName('distance')
-                .setDescription('The gif category')
+                .setDescription('Select distance')
                 .setRequired(true)
                 .addChoice('Distant', 'trader_distant')
                 .addChoice('Local', 'trader_local')),
     async execute(interaction) {
         const row = new MessageActionRow()
-        .addComponents([join]);
-const user1 = "476289497282248704";
-const user2 = "633564577476640778";
-const user3 = "884804747511603270";
-const user4 = "698784944549527633";
-        const embed = new MessageEmbed()
+        .addComponents([this.join_button()]);
+        let options = interaction.options._hoistedOptions[0].value;
+        await interaction.reply({content: `Hey <@&${this.platformId(interaction)}> users! <@${interaction.user.id}> invites to delivery: ${(options === "trader_distant")? "Distant" : "Local"}`, embeds: [this.posse_embed(interaction)], components: [row], ephemeral: true});
+
+    },
+    posse_embed: (interaction) => {
+        const user1 = "476289497282248704";
+        const user2 = "633564577476640778";
+        const user3 = "884804747511603270";
+        const user4 = "698784944549527633";
+        return new MessageEmbed()
             .setColor('#0099ff')
             .setTitle('Posse (5/7)')
             .setURL('')
@@ -31,19 +36,26 @@ const user4 = "698784944549527633";
                 // { name: '4', value: '\u200b', inline: false },
                 // { name: '5', value: '\u200b', inline: false },
             );
-
-
-        await interaction.reply({content: `Hey @everyone! user <@${interaction.user.id}> invites to drive ${interaction.options._hoistedOptions[0].value} wagon!`, embeds: [embed], components: [row], ephemeral: true});
-        // await interaction.reply({ content: 'Pong!', ephemeral: true, embeds: [embed], components: [row] });
-
     },
+    join_button: () =>{
+         return new MessageButton()
+            .setLabel('✘ Join')
+            .setStyle("SUCCESS")
+            .setCustomId("button_join")
+    },
+    user_roles: (interaction, role_name) => {
+        const array1 = interaction.member.guild.members.cache.get(interaction.user.id).roles.member._roles;
+        const found = array1.find(element => element === module.exports.role_list(interaction, role_name).id);
+        return found;
+    },
+    role_list: (interaction, role_name) => {
+        return interaction.member.guild.roles.cache.find(r => r.name === role_name);
+    },
+    platformId: (interaction) => {
+        let pcId = module.exports.user_roles(interaction, process.env.pcRoleName);
+        let psId = module.exports.user_roles(interaction, process.env.psRoleName);
+        let xboxId = module.exports.user_roles(interaction, process.env.xboxRoleName);
+
+        return (pcId !== undefined)? pcId : (psId !== undefined)? psId : (xboxId !== undefined)? xboxId : undefined;
+    }
 };
-
-
-
-
-
-let join = new MessageButton()
-    .setLabel('✘ Join')
-    .setStyle("SUCCESS")
-    .setCustomId("button_join")
