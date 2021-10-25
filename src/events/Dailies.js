@@ -42,19 +42,7 @@ module.exports = {
 
         return new MessageEmbed()
             .setColor('#A80505')
-            .setDescription(`__**Daily Challenges - ${d.toDateString()}**__
-            <:dailies:901367816505159710>**General**
-            ${module.exports.dailies_result(general)}
-            <:bounty:901369556453441556>**Bounty Hunter (Rank 15+)**
-            ${module.exports.dailies_result(bountyHunter)}
-            <:trader:901370584766750741>**Trader (Rank 15+)**
-            ${module.exports.dailies_result(trader)}
-            <:collector:901370798395228160>**Collector (Rank 15+)**
-            ${module.exports.dailies_result(collector)}
-            <:moonshiner:901372001137086484>**Moonshiner (Rank 15+)**
-            ${module.exports.dailies_result(moonshiner)}
-            <:naturalist:901372015108325427>**Naturalist (Rank 15+)**
-            ${module.exports.dailies_result(naturalist)}
+            .setDescription(`__**Daily Challenges - ${d.toDateString()}**__\n<:dailies:901367816505159710>**General**\n${module.exports.dailies_result(general)}\n<:bounty:901369556453441556>**Bounty Hunter (Rank 15+)**\n${module.exports.dailies_result(bountyHunter)}\n<:trader:901370584766750741>**Trader (Rank 15+)**\n${module.exports.dailies_result(trader)}\n<:collector:901370798395228160>**Collector (Rank 15+)**\n${module.exports.dailies_result(collector)}\n<:moonshiner:901372001137086484>**Moonshiner (Rank 15+)**\n${module.exports.dailies_result(moonshiner)}\n<:naturalist:901372015108325427>**Naturalist (Rank 15+)**\n${module.exports.dailies_result(naturalist)}
             `);
     },
     dailies_result: (daily) => {
