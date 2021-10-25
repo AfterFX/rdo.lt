@@ -4,20 +4,22 @@ module.exports = {
     name: 'ready',
     async execute(client) {
         console.log('Madam Nazar loaded!');
-        await client.channels.cache.get(process.env.madamNazarChannelId).messages.fetch(process.env.madamNazarMessageId)
-        // this.madam_nazar_location();
+        try {
+            await client.channels.cache.get(process.env.madamNazarChannelId).messages.fetch(process.env.madamNazarMessageId)
+        }catch (e) {
+            await client.channels.cache.get(process.env.madamNazarChannelId).send({embeds: [this.restart()]}).then(r => {
+                console.log("Set .env madamNazarMessageId:", r.id)
+            });
+        }finally {
+            this.madam_nazar_location(client);
+        }
         // setInterval(this.madam_nazar_location,(3*1000), client);//every 60s
-        // client.channels.cache.get(process.env.madamNazarChannelId)
-        this.madam_nazar_location(client);
-
     },
     madam_nazar_location: (client) => {
-        axios.get('https://madam-nazar-location-api.herokuapp.com/location/current')
+        axios.get(process.env.MadamNazarLink)
             .then(function (response) {
                 // handle success
-                // console.log(response.data)
-                // return client.channels.cache.get(process.env.madamNazarChannelId).send({embeds: [module.exports.embed(response.data.data)]});
-                return client.channels.cache.get(process.env.madamNazarChannelId).messages.cache.get(process.env.madamNazarMessageId).edit({embeds: [module.exports.embed(response.data.data, response.data.dataFor)]})
+              return client.channels.cache.get(process.env.madamNazarChannelId).messages.cache.get(process.env.madamNazarMessageId).edit({embeds: [module.exports.embed(response.data.data, response.data.dataFor)]})
             })
             .catch(function (error) {
                 // handle error
@@ -29,11 +31,18 @@ module.exports = {
             });
     },
     embed: (location, date) => {
+        const d = new Date(date);
         return new MessageEmbed()
-            .setColor('#0099ff')
-            .setDescription(`**Madam Nazar** ${date}\n In ${capitalize(location.location.region.precise)} in the region of ${capitalize(location.location.region.name)}.\n In the ${capitalize(location.location.cardinals.full)} side of the map. nearby & ${capitalize(location.location.near_by[0])}.`)
+            .setColor(15468872)
+            .setTitle(`Madam Nazar - ${d.toDateString()}`)
+            .setDescription(`<:nazarlocation:901750220763828236>Location\nIn **${capitalize(location.location.region.precise)}** in the region of **${capitalize(location.location.region.name)}**.\n In the **${capitalize(location.location.cardinals.full)}** side of the map. nearby & **${capitalize(location.location.near_by[0])}**.`)
             .setImage(location.location.image)
 
+    },
+    restart: () => {
+        return new MessageEmbed()
+            .setColor('#7a0273')
+            .setDescription(`**Error, check console!**`)
     }
 }
 
