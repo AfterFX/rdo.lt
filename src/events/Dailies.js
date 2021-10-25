@@ -1,28 +1,26 @@
-const { MessageEmbed } = require('discord.js');
+const { MessageAttachment, MessageEmbed } = require('discord.js');
 const axios = require('axios');
 module.exports = {
     name: 'ready',
     async execute(client) {
         console.log('Dailies loaded!');
-        await client.channels.cache.get(process.env.dailiesChannelId).messages.fetch(process.env.dailiesMessageId)
-        // this.madam_nazar_location();
+        try {
+            await client.channels.cache.get(process.env.dailiesChannelId).messages.fetch(process.env.dailiesMessageId)
+        }catch (e) {
+            await client.channels.cache.get(process.env.dailiesChannelId).send({embeds: [this.restart()]}).then(r => {
+                console.log("Set .env dailiesMessageId:", r.id)
+            });
+        }finally {
+            this.dailies(client);
+        }
         // setInterval(this.madam_nazar_location,(3*1000), client);//every 60s
-        // client.channels.cache.get(process.env.madamNazarChannelId)
-        this.dailies(client);
-
     },
     dailies: (client) => {
-        axios.get('https://pepegapi.jeanropke.net/v2/rdo/dailies')
+        axios.get(process.env.dailiesLink)
             .then(function (response) {
                 // handle success
-                let general = "";
-                // console.log(response.data.data[0].challenges)
-                response.data.data[0].challenges.forEach(element => {
-                    general += element.description.localizedFull + "\n";
-                });
-
-                // return client.channels.cache.get(process.env.dailiesChannelId).send({embeds: [module.exports.embed(response.data.data)]});
-                return client.channels.cache.get(process.env.dailiesChannelId).messages.cache.get(process.env.dailiesMessageId).edit({embeds: [module.exports.embed(general, response.data.date)]})
+                const file = new MessageAttachment("src/img/Daily_Challenges_RDO.lt.png");
+                return client.channels.cache.get(process.env.dailiesChannelId).messages.cache.get(process.env.dailiesMessageId).edit({embeds: [module.exports.embed(response.data.data, response.data.date)], files: [file]})
             })
             .catch(function (error) {
                 // handle error
@@ -33,16 +31,42 @@ module.exports = {
                 // always executed
             });
     },
-    embed: (general, date) => {
+    embed: (dailies, date) => {
+        let general = dailies[0];
+        let bountyHunter = dailies[1];
+        let trader = dailies[2];
+        let collector = dailies[3];
+        let moonshiner = dailies[4];
+        let naturalist = dailies[5];
+        const d = new Date(date);
 
         return new MessageEmbed()
-            .setColor('#0099ff')
-            .setDescription(`**Dailies** ${date}\n ${general}`)
+            .setColor('#A80505')
+            .setDescription(`__**Daily Challenges - ${d.toDateString()}**__
+            <:dailies:901367816505159710>**General**
+            ${module.exports.dailies_result(general)}
+            <:bounty:901369556453441556>**Bounty Hunter (Rank 15+)**
+            ${module.exports.dailies_result(bountyHunter)}
+            <:trader:901370584766750741>**Trader (Rank 15+)**
+            ${module.exports.dailies_result(trader)}
+            <:collector:901370798395228160>**Collector (Rank 15+)**
+            ${module.exports.dailies_result(collector)}
+            <:moonshiner:901372001137086484>**Moonshiner (Rank 15+)**
+            ${module.exports.dailies_result(moonshiner)}
+            <:naturalist:901372015108325427>**Naturalist (Rank 15+)**
+            ${module.exports.dailies_result(naturalist)}
+            `);
+    },
+    dailies_result: (daily) => {
+        let result = [];
+        daily.challenges.forEach((element) => {
+            result += "<:Daily:901350232523177985>" + element.description.localizedFull + "\n";
+        });
+        return result;
+    },
+    restart: () => {
+        return new MessageEmbed()
+            .setColor('#7a0273')
+            .setDescription(`**Error, check console!**`)
     }
-}
-
-
-const capitalize = (s) => {
-    if (typeof s !== 'string') return ''
-    return s.charAt(0).toUpperCase() + s.slice(1)
 }
