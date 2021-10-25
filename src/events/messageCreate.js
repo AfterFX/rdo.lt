@@ -14,7 +14,10 @@ module.exports = {
        if(message.content === "_welcome") {
             message.delete();
             client.channels.cache.get(process.env.welcomeChannelId).send({  embeds: [this.welcome_1_embed(), this.welcome_2_embed()], components: [rowPlatformButtons] });
-        }
+       }else if(message.content === "_embed"){
+           message.delete();
+           client.channels.cache.get(message.channelId).send({  embeds: [this.embed()] });
+       }
     },
     welcome_button: () => {
         return new MessageButton()
@@ -32,6 +35,11 @@ module.exports = {
         return new MessageEmbed()
             .setColor('#0099ff')
             .addField(`**PLATFORMOS ROLĖS**`, `Pasirink platforma, kuria naudoji žaisdamas Red Dead Online \n žaidimą, paspausdamas ant žemiau esančio platformos mygtuko.\n\n<:verify:893065643862159390> *Tik pasirinkę platformos rolę matysitę visus serverio kanalus.*`)
+    },
+    embed: () => {
+        return new MessageEmbed()
+            .setColor('#7a0273')
+            .setDescription(`**EMBED READY!**`)
     },
     server_total_messages: async () => {
         await Messages.findOrCreate({
