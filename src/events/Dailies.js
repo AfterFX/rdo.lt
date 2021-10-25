@@ -7,7 +7,8 @@ module.exports = {
         try {
             await client.channels.cache.get(process.env.dailiesChannelId).messages.fetch(process.env.dailiesMessageId)
         }catch (e) {
-            await client.channels.cache.get(process.env.dailiesChannelId).send({embeds: [this.restart()]}).then(r => {
+            const file = new MessageAttachment("src/img/Daily_Challenges_RDO.lt.png");
+            await client.channels.cache.get(process.env.dailiesChannelId).send({embeds: [this.restart()], files: [file]}).then(r => {
                 console.log("Set .env dailiesMessageId:", r.id)
             });
         }finally {
@@ -19,8 +20,7 @@ module.exports = {
         axios.get(process.env.dailiesLink)
             .then(function (response) {
                 // handle success
-                const file = new MessageAttachment("src/img/Daily_Challenges_RDO.lt.png");
-                return client.channels.cache.get(process.env.dailiesChannelId).messages.cache.get(process.env.dailiesMessageId).edit({embeds: [module.exports.embed(response.data.data, response.data.date)], files: [file]})
+                return client.channels.cache.get(process.env.dailiesChannelId).messages.cache.get(process.env.dailiesMessageId).edit({embeds: [module.exports.embed(response.data.data, response.data.date)]})
             })
             .catch(function (error) {
                 // handle error
