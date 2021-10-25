@@ -22,12 +22,12 @@ module.exports = {
     reward_embed: (money, gold) => {
         return new MessageEmbed()
             .setColor('#42b700')
-            .setDescription(`**Treasure opened!** money: ${money}, gold: ${gold}`)
+            .setDescription(`**You opened a treasure chest!**\n <:money:901365464964415538>**${money}** Dollars,\n <:goldbar:901352183134580786>**${gold}** Gold Bar`)
     },
     zero_treasure_embed: () => {
         return new MessageEmbed()
             .setColor('#b70000')
-            .setDescription(`**You don't have a treasure map!**`)
+            .setDescription(`<:no:901362061316063242> You don't have a treasure map!`)
     },
     open_treasure_map: async (interaction, button) => {
         let open_treasure = new MessageButton()
