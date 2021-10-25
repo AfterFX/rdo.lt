@@ -33,7 +33,7 @@ module.exports = {
     embed: (location, date) => {
         const d = new Date(date);
         return new MessageEmbed()
-            .setColor(15468872)
+            .setColor("#EC0949")
             .setTitle(`Madam Nazar - ${d.toDateString()}`)
             .setDescription(`<:nazarlocation:901750220763828236>Location\nIn **${capitalize(location.location.region.precise)}** in the region of **${capitalize(location.location.region.name)}**.\n In the **${capitalize(location.location.cardinals.full)}** side of the map. nearby & **${capitalize(location.location.near_by[0])}**.`)
             .setImage(location.location.image)
