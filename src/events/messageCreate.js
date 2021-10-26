@@ -1,6 +1,6 @@
 const Messages = require("../models/Messages");
 const User = require("../models/User");
-const { MessageActionRow, MessageButton, MessageEmbed } = require('discord.js');
+const { MessageActionRow, MessageButton, MessageEmbed, MessageAttachment } = require('discord.js');
 module.exports = {
     name: 'messageCreate',
     async execute(message, client) {
@@ -13,7 +13,8 @@ module.exports = {
             .addComponents([this.welcome_button()]);
        if(message.content === "_welcome") {
             message.delete();
-            client.channels.cache.get(process.env.welcomeChannelId).send({  embeds: [this.welcome_1_embed(), this.welcome_2_embed()], components: [rowPlatformButtons] });
+            const file = new MessageAttachment('src/img/RDO.lt-welcome2.png');
+            client.channels.cache.get(process.env.welcomeChannelId).send({  embeds: [this.welcome_1_embed(), this.welcome_2_embed()], components: [rowPlatformButtons], files: [file] });
        }else if(message.content === "_embed"){
            message.delete();
            client.channels.cache.get(message.channelId).send({  embeds: [this.embed()] });
@@ -28,13 +29,13 @@ module.exports = {
     },
     welcome_1_embed: () => {
         return new MessageEmbed()
-            .setColor('#0099ff')
-            .addField(`**GENERAL RULES**`, `Lietuviška **Red Dead Online** žaidimo bendruomenė, \n apjungianti visų platformų žaidėjus.\n**Serveryje rasi:** \n<:outlaw:893402804096483368> Custom **Outlaw** bota.\n<:sheriff:777209942931013633> Serverio Staff'as visada pagelbės esant klausimams.\n<:honorable:669866015437619200> Aktyvi bendruomenė, visada rasi būrį su kuo pažaisti.\n<:clue:777209925461999627> Naudingi patarimai, pagalba ir kita.`)
+            .setColor('#C98309')
+            .addField(`APIE RDO.LT SERVERĮ`, `Lietuviška **Red Dead Online** žaidimo bendruomenė, \napjungianti visų platformų žaidėjus.\n\n**Serveryje rasi:** \n<:outlaw:893402804096483368> Custom **Outlaw** bota.\n<:sheriff:777209942931013633> Serverio Staff'as visada pagelbės esant klausimams.\n<:honorable:669866015437619200> Aktyvi bendruomenė, visada rasi būrį su kuo pažaisti.\n<:clue:777209925461999627> Naudingi patarimai, pagalba ir kita.`)
     },
     welcome_2_embed: () => {
         return new MessageEmbed()
-            .setColor('#0099ff')
-            .addField(`**PLATFORMOS ROLĖS**`, `Pasirink platforma, kuria naudoji žaisdamas Red Dead Online \n žaidimą, paspausdamas ant žemiau esančio platformos mygtuko.\n\n<:verify:893065643862159390> *Tik pasirinkę platformos rolę matysitę visus serverio kanalus.*`)
+            .setColor('#C98309')
+            .addField(`PLATFORMOS ROLĖS`, `Pasirink platforma, kuria naudoji žaisdamas Red Dead Online\nžaidimą, paspausdamas ant žemiau esančio platformos mygtuko.\n\n<:verify:893065643862159390> *Tik pasirinkę platformos rolę matysitę visus serverio kanalus.*`)
     },
     embed: () => {
         return new MessageEmbed()
@@ -80,15 +81,9 @@ module.exports = {
         while (r.experience >= FullLevelRequiredXP);
         if(levelUp){
             r.save().then((r) => {
-                client.channels.cache.get(process.env.notificationsChannelId).send({content: `|| <@${user.id}> ||`,  embeds: [module.exports.levelUpNotification(r, user, treasureMapsReward)] });
+                let reward = (treasureMapsReward)? `Reward: ${treasureMapsReward} treasure map(s)` : "";
+                client.channels.cache.get(process.env.notificationsChannelId).send({content: `<@${user.id}> has achieved the ${r.level} level.\n ${reward}`});
             });
         }
-    },
-    levelUpNotification: (r, user, treasureMapsReward) => {
-        let reward = (treasureMapsReward)? `Reward: ${treasureMapsReward} treasure map(s)` : "";
-        return new MessageEmbed()
-            .setColor('#0099ff')
-            .setDescription(`**Level Up**\n ${user.username} has achievement the ${r.level} level.\n ${reward}`)
-
     }
 };
