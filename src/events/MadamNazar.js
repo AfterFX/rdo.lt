@@ -11,7 +11,7 @@ module.exports = {
                 console.log("Set .env madamNazarMessageId:", r.id)
             });
         }finally {
-            this.madam_nazar_location(client);
+            setInterval(this.madam_nazar_location,(10*60*1000), client);
         }
         // setInterval(this.madam_nazar_location,(3*1000), client);//every 60s
     },

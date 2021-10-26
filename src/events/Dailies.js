@@ -12,7 +12,7 @@ module.exports = {
                 console.log("Set .env dailiesMessageId:", r.id)
             });
         }finally {
-            this.dailies(client);
+            setInterval(this.dailies,(10*60*1000), client);
         }
         // setInterval(this.madam_nazar_location,(3*1000), client);//every 60s
     },
