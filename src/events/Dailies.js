@@ -42,13 +42,18 @@ module.exports = {
 
         return new MessageEmbed()
             .setColor('#A80505')
-            .setDescription(`__**Daily Challenges - ${d.toDateString()}**__\n<:dailies:901367816505159710>**General**\n${module.exports.dailies_result(general)}\n<:bounty:901369556453441556>**Bounty Hunter (Rank 15+)**\n${module.exports.dailies_result(bountyHunter)}\n<:trader:901370584766750741>**Trader (Rank 15+)**\n${module.exports.dailies_result(trader)}\n<:collector:901370798395228160>**Collector (Rank 15+)**\n${module.exports.dailies_result(collector)}\n<:moonshiner:901372001137086484>**Moonshiner (Rank 15+)**\n${module.exports.dailies_result(moonshiner)}\n<:naturalist:901372015108325427>**Naturalist (Rank 15+)**\n${module.exports.dailies_result(naturalist)}
-            `);
+            .setDescription(`__**Daily Challenges - ${d.toDateString()}**__`)
+            .addFields({name: `<:dailies:901367816505159710> General`, value: `${module.exports.dailies_result(general)}`})
+            .addFields({name: `<:bounty:901369556453441556> Bounty Hunter (Rank 15+)`, value: `${module.exports.dailies_result(bountyHunter)}`})
+            .addFields({name: `<:trader:901370584766750741> Trader (Rank 15+)`, value: `${module.exports.dailies_result(trader)}`})
+            .addFields({name: `<:collector:901370798395228160> Collector (Rank 15+)`, value: `${module.exports.dailies_result(collector)}`})
+            .addFields({name: `<:moonshiner:901372001137086484> Moonshiner (Rank 15+)`, value: `${module.exports.dailies_result(moonshiner)}`})
+            .addFields({name: `<:naturalist:901372015108325427> Naturalist (Rank 15+)`, value: `${module.exports.dailies_result(naturalist)}`})
     },
     dailies_result: (daily) => {
         let result = [];
         daily.challenges.forEach((element) => {
-            result += "<:Daily:901350232523177985>" + element.description.localizedFull + "\n";
+            result += "<:Daily:901350232523177985> " + element.description.localizedFull + "\n";
         });
         return result;
     },
