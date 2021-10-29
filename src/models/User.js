@@ -43,6 +43,10 @@ module.exports = class User extends Model {
                 type: DataTypes.INTEGER,
                 defaultValue: 0
             },
+            longestStreak: {
+                type: DataTypes.INTEGER,
+                defaultValue: 0
+            },
             treasureMaps: {
                 type: DataTypes.INTEGER,
                 defaultValue: 0

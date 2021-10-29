@@ -2,9 +2,12 @@ require('dotenv').config();
 
 const { Client, Intents, Collection } = require('discord.js');
 const fs = require('fs');
-const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_PRESENCES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS],
-    partials: ['MESSAGE', 'CHANNEL', 'REACTION'],});
+const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_PRESENCES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS, Intents.FLAGS.GUILD_EMOJIS_AND_STICKERS],
+    partials: ['MESSAGE', 'CHANNEL', 'REACTION', 'EMOJI'],});
 const db = require('./database/database');
+
+
+
 
 
 client.commands = new Collection();
@@ -19,6 +22,8 @@ const User = require("./models/User");
 const Messages = require("./models/Messages");
 
     client.on('ready', async () => {
+        // client.channels.cache.get("890281870099632200").send("<:RDR2lietuva:784835713052180520>");
+
         console.log("Bot is logged in!");
         await db.authenticate()
             .then(() => {

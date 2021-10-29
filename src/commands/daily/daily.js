@@ -12,6 +12,7 @@ module.exports = {
             if (user.dailyLastDate === "0"){//for first time using daily
                 user.gold = (user.gold+0.3);
                 user.dailyStreak = user.dailyStreak+1;
+                user.longestStreak = user.dailyStreak;
                 user.dailyLastDate = new Date().toLocaleDateString();
                 user.save().then(interaction.reply({embeds: [this.first_daily_embed(0.3, interaction.user)], ephemeral: true}));
             }else if(this.diffDate(user.dailyLastDate) > 1){//reset
@@ -27,8 +28,11 @@ module.exports = {
                     });
             }else if(this.diffDate(user.dailyLastDate) === 1){
                 let streakGold = this.daily_gold(user);
+                let longestStreak = (user.dailyStreak >= user.longestStreak) ? (user.dailyStreak+1) : user.longestStreak;
+                console.log(longestStreak)
                 user.gold = (user.gold+streakGold);
                 user.dailyStreak = user.dailyStreak+1;
+                user.longestStreak = longestStreak;
                 user.dailyLastDate = new Date().toLocaleDateString();
                 user.save().then(interaction.reply({embeds: [this.daily_reward_embed(false, streakGold, user.dailyStreak)], ephemeral: true}))
                     .then(() => {
