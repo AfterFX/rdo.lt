@@ -24,10 +24,10 @@ module.exports = {
                         id: platformRole[0],
                         name: platformRole[1],
                     }
-                }else{
+                }else if(user.bot){
                     user.platform = {
-                        id: "none",
-                        name: "none",
+                        id: "bot",
+                        name: "bot",
                     }
                 }
             });
@@ -43,7 +43,7 @@ module.exports = {
         })
         const platform = (user.platform.name === process.env.pcRoleName)? "<:PC:895300967317262366> PC" : (user.platform.name === process.env.psRoleName)? "<:playstation:893088102338412594> Playstation" : (user.platform.name === process.env.xboxRoleName)? "<:XBOX:892829298862481409> Xbox" : "none";
         return new MessageEmbed()
-            .setColor('#b70000')
+            .setColor('#04426B')
             .setTitle(`${user.username}#${user.discriminator}`)
             .setDescription(`User Information`)
             .addFields({name : 'Platform', value: `${platform}`}, {name : 'Overview', value: `<:exp:901755123909427240> [${UserData.experience}/${(UserData.level+1)*100}] **${UserData.level}** Level\n<:goldbar:901352183134580786> **${UserData.gold}** Gold Bar\n<:money:901365464964415538> **${UserData.money}** Dollars\n<:treasuremap:901755136987267082> **${UserData.treasureMaps}** Maps\n<:dailies:901367816505159710> Longest Daily challenge streak: **${UserData.longestStreak}**`})
