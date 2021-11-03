@@ -64,7 +64,7 @@ module.exports = {
         const data = (platform === process.env.pcRoleName)? {emoji: `<:PC:${process.env.pcEmojiId}>`, color: '#4f545c'} : (platform === process.env.psRoleName)? {emoji: `<:playstation:${process.env.psEmojiId}>`, color: '#5865f2'} : (platform === process.env.xboxRoleName)? {emoji: `<:XBOX:${[process.env.xboxEmojiId]}>`, color: '#3ba55d'} : {emoji: `😄`, color: '#FFFFFFFF'};
         return new MessageEmbed()
             .setColor(data["color"])
-            .setDescription(`**You selected ${data["emoji"]+platform+data["emoji"]}**`)
+            .setDescription(`**Jūsų pasirinkimas ${data["emoji"]+platform+data["emoji"]}** \n Rekomenduojame pasirašyti gamer tag'ą <#${process.env.gamerTagChannelId}> kanale, kad būtų lengviau susirasti partnerių.`)
     },
     user_roles: (interaction, role_name) => {
         const array1 = interaction.message.guild.members.cache.get(interaction.user.id).roles.member._roles;
