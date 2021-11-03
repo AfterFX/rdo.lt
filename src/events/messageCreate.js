@@ -30,12 +30,12 @@ module.exports = {
     welcome_1_embed: () => {
         return new MessageEmbed()
             .setColor('#C98309')
-            .addField(`APIE RDO.LT SERVERĮ`, `Lietuviška **Red Dead Online** žaidimo bendruomenė, \napjungianti visų platformų žaidėjus.\n\n**Serveryje rasi:** \n<:outlaw:893402804096483368> Custom **Outlaw** bota.\n<:sheriff:777209942931013633> Serverio Staff'as visada pagelbės esant klausimams.\n<:honorable:669866015437619200> Aktyvi bendruomenė, visada rasi būrį su kuo pažaisti.\n<:clue:777209925461999627> Naudingi patarimai, pagalba ir kita.`)
+            .addField(`APIE RDO.LT SERVERĮ`, `Lietuviška **Red Dead Online** žaidimo bendruomenė, \napjungianti visų platformų žaidėjus.\n\n**Serveryje rasi:** \n<:outlaw:893398357345710100> Custom **Outlaw** bota.\n<:Sheriff:903901548831207454> Serverio Staff'as visada pagelbės esant klausimams.\n<:members:903901535040323595> Aktyvi bendruomenė, visada rasi būrį su kuo pažaisti.\n<:clue:903901498692493373> Naudingi patarimai, pagalba ir kita.`)
     },
     welcome_2_embed: () => {
         return new MessageEmbed()
             .setColor('#C98309')
-            .addField(`PLATFORMOS ROLĖS`, `Pasirink platforma, kuria naudoji žaisdamas Red Dead Online\nžaidimą, paspausdamas ant žemiau esančio platformos mygtuko.\n\n<:verify:893065643862159390> *Tik pasirinkę platformos rolę matysitę visus serverio kanalus.*`)
+            .addField(`PLATFORMOS ROLĖS`, `Pasirink platforma, kuria naudoji žaisdamas Red Dead Online\nžaidimą, paspausdamas ant žemiau esančio platformos mygtuko.\n\n<a:verify:903904699953066025> *Bendrauti galėsitę, tik pasirinkę platformos rolę.*`)
     },
     embed: () => {
         return new MessageEmbed()
