@@ -54,7 +54,7 @@ module.exports = {
     plz_selectPlatform_embed: () => {
         return new MessageEmbed()
             .setColor('#b89100')
-            .setDescription(`**PLEASE SELECT A PLATFORM**`)
+            .setDescription(`**Pasirinkti platformą**`)
     },
     select_platform: (interaction, role) =>{
         interaction.message.guild.members.cache.get(interaction.user.id).roles.add(module.exports.role_list(interaction, role).id);
