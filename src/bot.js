@@ -6,8 +6,7 @@ const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_
     partials: ['MESSAGE', 'CHANNEL', 'REACTION', 'EMOJI'],});
 const db = require('./database/database');
 
-
-
+let newswire = require('./newswire');
 
 
 client.commands = new Collection();
@@ -22,8 +21,7 @@ const User = require("./models/User");
 const Messages = require("./models/Messages");
 
     client.on('ready', async () => {
-        // client.channels.cache.get("890281870099632200").send("<:RDR2lietuva:784835713052180520>");
-
+        new newswire("rdr2", client);// auto posting news from rdr2
         console.log("Bot is logged in!");
         await db.authenticate()
             .then(() => {

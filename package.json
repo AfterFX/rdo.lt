@@ -17,11 +17,13 @@
     "axios": "^0.23.0",
     "discord-api-types": "^0.23.1",
     "discord.js": "^13.2.0",
+    "got": "^11.8.2",
     "mysql2": "^2.3.0"
   },
   "devDependencies": {
     "dotenv": "^10.0.0",
     "nodemon": "^2.0.12",
+    "puppeteer": "^11.0.0",
     "sequelize": "^6.6.5"
   }
 }
