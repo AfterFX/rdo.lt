@@ -18,6 +18,7 @@ const commandFolders = fs.readdirSync("./src/commands");
 
 //db
 const User = require("./models/User");
+// const User1 = require("./models/User1");//todo helps transfer users from one to another. after transfer need delete this code
 const Messages = require("./models/Messages");
 
     client.on('ready', async () => {
@@ -27,19 +28,43 @@ const Messages = require("./models/Messages");
             .then(() => {
                 console.log("Logged in to DB");
                 User.init(db);
+                // User1.init(db);//todo helps transfer users from one to another. after transfer need delete this code
+                // User1.sync();//todo helps transfer users from one to another. after transfer need delete this code
                 User.sync();
                 Messages.init(db);
                 Messages.sync();
                 Messages.findOrCreate({where: {id: 1}});
             }).catch(err => console.log(err));
-
         setInterval(ResetTime,(60*1000));//every 60s
+
+
+
+        // const users = await User1.findAll();//todo helps transfer users from one to another. after transfer need delete this code
+        // console.log(users.every(user => user instanceof User1)); // true
+        // users.forEach(member => { //creating users if not exits in database
+        //     User.findOrCreate({
+        //         where: { userId: member.id }
+        //     }).then(([r]) => {
+        //         r.userId = (member.userID);
+        //         r.money = (member.money);
+        //         r.gold = (member.gold);
+        //         r.level = (member.level);
+        //         r.experience = (member.experience);
+        //         r.messages = (member.messages);
+        //         r.dailyLastDate = (member.dailyLastDate);
+        //         r.dailyStreak = (member.dailyStreak);
+        //         r.treasureMaps = (member.treasureMaps);
+        //         r.save();
+        //     });
+        // });
+
+
 
          client.users.cache.forEach(member => { //creating users if not exits in database
              User.findOrCreate({
                  where: { userId: member.id }
              });
-        });
+         });
 
     });
 
