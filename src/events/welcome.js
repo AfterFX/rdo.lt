@@ -18,7 +18,7 @@ module.exports = {
 
 
         if(interaction.customId === "welcome_platform_getStart_button"){
-            interaction.reply({embeds: [this.plz_selectPlatform_embed()], components: [row], ephemeral: true, fetchReply: true});
+            interaction.reply({content: "Pasirinkti platformą", components: [row], ephemeral: true, fetchReply: true});
         }else if(interaction.customId === "button_pc"){
             this.select_platform(interaction, process.env.pcRoleName); console.log(`User: ${interaction.user} have selected gaming platform: ${process.env.pcRoleName}`);
         }else if(interaction.customId === "button_ps"){
@@ -51,20 +51,10 @@ module.exports = {
         .setStyle("SUCCESS")
         .setCustomId("button_xbox")
     },
-    plz_selectPlatform_embed: () => {
-        return new MessageEmbed()
-            .setColor('#b89100')
-            .setDescription(`**Pasirinkti platformą**`)
-    },
     select_platform: (interaction, role) =>{
         interaction.message.guild.members.cache.get(interaction.user.id).roles.add(module.exports.role_list(interaction, role).id);
-        interaction.update({embeds: [module.exports.selected_platform_embed(role)]});
-    },
-    selected_platform_embed: (platform) => {
-        const data = (platform === process.env.pcRoleName)? {emoji: `<:PC:${process.env.pcEmojiId}>`, color: '#4f545c'} : (platform === process.env.psRoleName)? {emoji: `<:playstation:${process.env.psEmojiId}>`, color: '#5865f2'} : (platform === process.env.xboxRoleName)? {emoji: `<:XBOX:${[process.env.xboxEmojiId]}>`, color: '#3ba55d'} : {emoji: `😄`, color: '#FFFFFFFF'};
-        return new MessageEmbed()
-            .setColor(data["color"])
-            .setDescription(`**Jūsų pasirinkimas ${data["emoji"]+platform+data["emoji"]}** \n Rekomenduojame pasirašyti gamer tag'ą <#${process.env.gamerTagChannelId}> kanale, kad būtų lengviau susirasti partnerių.`)
+        const data = (role === process.env.pcRoleName)? {emoji: `<:PC:${process.env.pcEmojiId}>`, color: '#4f545c'} : (role === process.env.psRoleName)? {emoji: `<:playstation:${process.env.psEmojiId}>`, color: '#5865f2'} : (role === process.env.xboxRoleName)? {emoji: `<:XBOX:${[process.env.xboxEmojiId]}>`, color: '#3ba55d'} : {emoji: `😄`, color: '#FFFFFFFF'};
+        interaction.update({content: `**Jūsų pasirinkimas ${data["emoji"]+role+data["emoji"]}** \nRekomenduojame pasirašyti gamer tag'ą <#${process.env.gamerTagChannelId}> kanale ir susirasti žaidėjų.`});
     },
     user_roles: (interaction, role_name) => {
         const array1 = interaction.message.guild.members.cache.get(interaction.user.id).roles.member._roles;
