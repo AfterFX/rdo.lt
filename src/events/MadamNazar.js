@@ -1,4 +1,4 @@
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed, MessageAttachment} = require('discord.js');
 const axios = require('axios');
 module.exports = {
     name: 'ready',
@@ -7,7 +7,8 @@ module.exports = {
         try {
             await client.channels.cache.get(process.env.madamNazarChannelId).messages.fetch(process.env.madamNazarMessageId)
         }catch (e) {
-            await client.channels.cache.get(process.env.madamNazarChannelId).send({embeds: [this.restart()]}).then(r => {
+            const file = new MessageAttachment("src/img/madam-nazar.png");
+            await client.channels.cache.get(process.env.madamNazarChannelId).send({embeds: [this.restart()], files: [file]}).then(r => {
                 console.log("Set .env madamNazarMessageId:", r.id)
             });
         }finally {
@@ -33,7 +34,7 @@ module.exports = {
     embed: (location, date) => {
         const d = new Date(date);
         return new MessageEmbed()
-            .setColor("#EC0949")
+            .setColor("#ca0808")
             .setTitle(`Madam Nazar - ${d.toDateString()}`)
             .addFields({name: `<:nazarlocation:901750220763828236>Location`, value: `In **${capitalize(location.location.region.precise)}** in the region of **${capitalize(location.location.region.name)}**.\n In the **${capitalize(location.location.cardinals.full)}** side of the map. nearby & **${capitalize(location.location.near_by[0])}**.`})
             .setImage(location.location.image)
