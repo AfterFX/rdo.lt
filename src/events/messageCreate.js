@@ -35,7 +35,7 @@ module.exports = {
     welcome_2_embed: () => {
         return new MessageEmbed()
             .setColor('#C98309')
-            .addField(`PLATFORMOS ROLĖS`, `Pasirink platforma, kuria naudoji žaisdamas Red Dead Online\nžaidimą, paspausdamas ant žemiau esančio platformos mygtuko.\n\n<a:verify:903904699953066025> *Bendrauti galėsitę, tik pasirinkę platformos rolę.*`)
+            .addField(`PLATFORMOS ROLĖS`, `Pasirink platforma, kuria naudoji žaisdamas Red Dead Online\nžaidimą, paspausdamas ant žemiau esančio mygtuko.\n\n<a:verify:903904699953066025> *Bendrauti galėsitę, tik pasirinkę platformos rolę.*`)
     },
     embed: () => {
         return new MessageEmbed()
