@@ -8,11 +8,11 @@ module.exports = {
 
 
         if(!oldStatus && newStatus) {
-            client.channels.cache.get(process.env.boostChannelId).send({ embeds: [this.boosted(newMember)] });
+            client.channels.cache.get(process.env.notificationsChannelId).send({ embeds: [this.boosted(newMember)] });
         }
 
         if(oldStatus && !newStatus) {
-            client.channels.cache.get(process.env.boostChannelId).send({ embeds: [this.UnBoosted(newMember)] });
+            client.channels.cache.get(process.env.notificationsChannelId).send({ embeds: [this.UnBoosted(newMember)] });
         }
     },
     boosted: (newMember) => {
@@ -22,7 +22,6 @@ module.exports = {
             .setURL('')
             .setDescription(`Thanks for boosting, <@${newMember.user.id}>.`)
             .setColor(15928032)
-            .setFooter("We now have 2 boosts!")
             .setThumbnail(`https://cdn.discordapp.com/avatars/${newMember.user.id}/${newMember.user.avatar}.webp`);
     },
     UnBoosted: (newMember) => {
