@@ -8,7 +8,7 @@ module.exports = {
         await User.findOrCreate({
             where: {userId: member.user.id}
         }).then((r) => {
-            member.guild.channels.cache.get(process.env.notificationsChannelId).send({  content: `**Prerijose naujas kaubojus** <:heal:787405348649828363> <@${member.user.id}>`, files: [attachment] })
+            member.guild.channels.cache.get(process.env.notificationsChannelId).send({  content: `**Prerijose naujas kaubojus** <:heal:906903094175080478> <@${member.user.id}>`, files: [attachment] })
         });
     }
 };
