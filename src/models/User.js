@@ -53,7 +53,7 @@ module.exports = class User extends Model {
             },
 
         },{
-           tableName: 'User',
+           tableName: 'user',
            timestamps: true,
            sequelize
         });

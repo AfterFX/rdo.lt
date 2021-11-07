@@ -16,7 +16,7 @@ module.exports = class Messages extends Model {
                 defaultValue: 0
             },
         },{
-            tableName: 'Messages',
+            tableName: 'messages',
             timestamps: true,
             sequelize
         });
