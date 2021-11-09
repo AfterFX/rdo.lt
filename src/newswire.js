@@ -51,20 +51,21 @@ class newswire {
         article.tags = '' + article.tags.map(tag => '`' + tag + '` ');
         const embed = {
                 'author': {
-                    'name': 'Newswire',
+                    'name': 'Red Dead Online',
                     'url': 'https://www.rockstargames.com/newswire',
-                    'icon_url': 'https://img.icons8.com/color/48/000000/rockstar-games.png'
+                    'icon_url': 'https://cdn.discordapp.com/avatars/890297111126614026/db37bdbf295cfa4742c9b69a0843c943.png'
                 },
                 'title': article.title,
                 'url': article.link,
-                'description': article.tags,
+                // 'description': article.tags,
+                'description': "Latest news",
                 'color': 15258703,
                 'fields': [],
                 'image': {
                     'url': article.img
                 },
                 'footer': {
-                    "icon_url": "https://img.icons8.com/color/48/000000/rockstar-games.png",
+                    // "icon_url": "https://img.icons8.com/color/48/000000/rockstar-games.png",
                     "text": article.date
                 }
         };
@@ -146,6 +147,7 @@ async function getHashToken() {
     return new Promise(async (res, rej) => {
         try {
             const browser = await puppeteer.launch({
+                args: ['--no-sandbox', '--disable-setuid-sandbox'],
                 headless: true
             });
             const page = await browser.newPage();

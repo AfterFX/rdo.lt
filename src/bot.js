@@ -24,6 +24,8 @@ const Messages = require("./models/Messages");
     client.on('ready', async () => {
         new newswire("rdr2", client);// auto posting news from rdr2
         console.log("Bot is logged in!");
+        setActivity(client);
+        setInterval(setActivity,3600000, client);
         await db.authenticate()
             .then(() => {
                 console.log("Logged in to DB");
@@ -91,4 +93,8 @@ function ResetTime() {
             r.save().then( () => {console.log("messages saved")});
         }
     })
+}
+
+function setActivity(client){
+    client.user.setActivity("RDR2", {type: "PLAYING"});
 }
