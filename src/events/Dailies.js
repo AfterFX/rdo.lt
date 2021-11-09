@@ -1,5 +1,10 @@
 const { MessageAttachment, MessageEmbed } = require('discord.js');
 const axios = require('axios');
+axios.defaults.headers = {
+    'Cache-Control': 'no-cache',
+    'Pragma': 'no-cache',
+    'Expires': '0',
+};
 module.exports = {
     name: 'ready',
     async execute(client) {
