@@ -17,9 +17,9 @@ module.exports = {
                 console.log("Set .env dailiesMessageId:", r.id)
             });
         }finally {
+            // this.dailies(client)
             setInterval(this.dailies,(10*60*1000), client);
         }
-        // setInterval(this.madam_nazar_location,(3*1000), client);//every 60s
     },
     dailies: (client) => {
         axios.get(process.env.dailiesLink)
@@ -37,23 +37,38 @@ module.exports = {
             });
     },
     embed: (dailies, date) => {
-        let general = dailies[0];
-        let bountyHunter = dailies[1];
-        let trader = dailies[2];
-        let collector = dailies[3];
-        let moonshiner = dailies[4];
-        let naturalist = dailies[5];
+        let general = dailies.general;
+        let bountyHunterEasy = dailies.easy[0];
+        let bountyHunterMedium = dailies.med[0];
+        let bountyHunterHard = dailies.hard[0];
+
+        let traderEasy = dailies.easy[1];
+        let traderMedium = dailies.med[1];
+        let traderHard = dailies.hard[1];
+
+        let collectorEasy = dailies.easy[2];
+        let collectorMedium = dailies.med[2];
+        let collectorHard = dailies.hard[2];
+
+        let moonshinerEasy = dailies.easy[3];
+        let moonshinerMedium = dailies.med[3];
+        let moonshinerHard = dailies.hard[3];
+
+        let naturalistEasy = dailies.easy[4];
+        let naturalistMedium = dailies.med[4];
+        let naturalistHard = dailies.hard[4];
+
         const d = new Date(date);
 
         return new MessageEmbed()
             .setColor('#A80505')
             .setDescription(`__**Daily Challenges - ${d.toDateString()}**__`)
             .addFields({name: `<:dailies:901367816505159710> General`, value: `${module.exports.dailies_result(general)}`})
-            .addFields({name: `<:bounty:901369556453441556> Bounty Hunter (Rank 15+)`, value: `${module.exports.dailies_result(bountyHunter)}`})
-            .addFields({name: `<:trader:901370584766750741> Trader (Rank 15+)`, value: `${module.exports.dailies_result(trader)}`})
-            .addFields({name: `<:collector:901370798395228160> Collector (Rank 15+)`, value: `${module.exports.dailies_result(collector)}`})
-            .addFields({name: `<:moonshiner:901372001137086484> Moonshiner (Rank 15+)`, value: `${module.exports.dailies_result(moonshiner)}`})
-            .addFields({name: `<:naturalist:901372015108325427> Naturalist (Rank 15+)`, value: `${module.exports.dailies_result(naturalist)}`})
+            .addFields({name: `<:bounty:901369556453441556> Bounty Hunter`, value: `***(Rank easy 1-4 lvl)***\n${module.exports.dailies_result(bountyHunterEasy)}***(Rank medium 5-14 lvl)***\n${module.exports.dailies_result(bountyHunterMedium)}***(Rank hard 15+ lvl)***\n${module.exports.dailies_result(bountyHunterHard)}`})
+            .addFields({name: `<:trader:901370584766750741> Trader`, value: `***(Rank easy 1-4 lvl)***\n${module.exports.dailies_result(traderEasy)}***(Rank medium 5-14 lvl)***\n${module.exports.dailies_result(traderMedium)}***(Rank hard 15+ lvl)***\n${module.exports.dailies_result(traderHard)}`})
+            .addFields({name: `<:collector:901370798395228160> Collector`, value: `***(Rank easy 1-4 lvl)***\n${module.exports.dailies_result(collectorEasy)}***(Rank medium 5-14 lvl)***\n${module.exports.dailies_result(collectorMedium)}***(Rank hard 15+ lvl)***\n${module.exports.dailies_result(collectorHard)}`})
+            .addFields({name: `<:moonshiner:901372001137086484> Moonshiner`, value: `***(Rank easy 1-4 lvl)***\n${module.exports.dailies_result(moonshinerEasy)}***(Rank medium 5-14 lvl)***\n${module.exports.dailies_result(moonshinerMedium)}***(Rank hard 15+ lvl)***\n${module.exports.dailies_result(moonshinerHard)}`})
+            .addFields({name: `<:naturalist:901372015108325427> Naturalist`, value: `***(Rank easy 1-4 lvl)***\n${module.exports.dailies_result(naturalistEasy)}***(Rank medium 5-14 lvl)***\n${module.exports.dailies_result(naturalistMedium)}***(Rank hard 15+ lvl)***\n${module.exports.dailies_result(naturalistHard)}`})
     },
     dailies_result: (daily) => {
         let result = [];
