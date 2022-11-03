@@ -1,2 +1,1 @@
-# OnB-Discord
-OnB-Discord
+powerfull discord bot :)
